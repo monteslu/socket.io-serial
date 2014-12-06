@@ -3,6 +3,11 @@ socket.io-serial
 
 Virtual serial port running using Socket.io
 
+# Installation
+
+```
+npm install socket.io-serial
+```
 
 # SocketSerialPort
 
