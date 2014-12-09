@@ -1,6 +1,6 @@
 {
   "name": "socket.io-serial",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Virtual serial device over Socket.io",
   "main": "index.js",
   "repository": "git@github.com:monteslu/socket.io-serial.git",

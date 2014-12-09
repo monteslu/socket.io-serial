@@ -9,7 +9,7 @@ var _ = require('lodash');
 function SocketSerialPort(options) {
   this.client = options.client;
   this.receiveTopic = options.receiveTopic;
-  this.transmitTopic = options.transmitTopic;
+  this.transmitTopic = options.transmitTopic || this.receiveTopic;
   this.metaData = options.metaData || {};
 
   this.buffer = null;
@@ -85,7 +85,8 @@ SocketSerialPort.prototype.drain = function (callback) {
 function bindPhysical(options){
   this.client = options.client;
   this.receiveTopic = options.receiveTopic;
-  this.transmitTopic = options.transmitTopic;
+  this.transmitTopic = options.transmitTopic || this.receiveTopic;
+  this.metaData = options.metaData || {};
 
   function serialWrite(data){
     try{
@@ -105,7 +106,10 @@ function bindPhysical(options){
       data = new Buffer(data);
     }
 
-    this.client.emit(this.transmitTopic, {buffer: data});
+    var sendObj = _.clone(this.metaData);
+    sendObj.buffer = data;
+
+    this.client.emit(this.transmitTopic, sendObj);
   });
 
 
