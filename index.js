@@ -10,6 +10,7 @@ function SocketSerialPort(options) {
   this.client = options.client;
   this.receiveTopic = options.receiveTopic;
   this.transmitTopic = options.transmitTopic;
+  this.metaData = options.metaData || {};
 
   this.buffer = null;
 
@@ -51,7 +52,10 @@ SocketSerialPort.prototype.write = function (data, callback) {
     data = new Buffer(data);
   }
 
-  this.client.emit(this.transmitTopic, {buffer: data});
+  var sendObj = _.clone(this.metaData);
+  sendObj.buffer = data;
+
+  this.client.emit(this.transmitTopic, sendObj);
 };
 
 
