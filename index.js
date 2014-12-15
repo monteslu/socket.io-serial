@@ -48,10 +48,6 @@ SocketSerialPort.prototype.write = function (data, callback) {
 
   console.log('sending data:', data);
 
-  if (!Buffer.isBuffer(data)) {
-    data = new Buffer(data);
-  }
-
   var sendObj = _.clone(this.metaData);
   sendObj.buffer = data;
 
@@ -83,10 +79,11 @@ SocketSerialPort.prototype.drain = function (callback) {
 
 
 function bindPhysical(options){
-  this.client = options.client;
-  this.receiveTopic = options.receiveTopic;
-  this.transmitTopic = options.transmitTopic || this.receiveTopic;
-  this.metaData = options.metaData || {};
+  var client = options.client;
+  var serialPort = options.serialPort;
+  var receiveTopic = options.receiveTopic;
+  var transmitTopic = options.transmitTopic || receiveTopic;
+  var metaData = options.metaData || {};
 
   function serialWrite(data){
     try{
@@ -106,21 +103,20 @@ function bindPhysical(options){
       data = new Buffer(data);
     }
 
-    var sendObj = _.clone(this.metaData);
+    var sendObj = _.clone(metaData);
     sendObj.buffer = data;
 
-    this.client.emit(this.transmitTopic, sendObj);
+    client.emit(transmitTopic, sendObj);
   });
 
 
-  this.client.on(self.receiveTopic, function(data){
+  client.on(receiveTopic, function(data){
     try{
-      if(topic === self.receiveTopic){
-        console.log('received', topic, data);
-        serialWrite(data);
-      }
+      if(data.buffer){
+        console.log('received', data);
+        serialWrite(data.buffer);      }
     }catch(exp){
-      console.log('error on message', exp);
+      console.log('error on receive', exp);
       //self.emit('error', 'error receiving message: ' + exp);
     }
   });
