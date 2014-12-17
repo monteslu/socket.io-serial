@@ -1,7 +1,7 @@
 socket.io-serial example
 =============
 
-Virtual serial port running using Socket.io
+Virtual serial port clients and server running on Socket.io
 
 ## Getting started
 

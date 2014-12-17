@@ -1,7 +1,7 @@
 socket.io-serial
 =============
 
-Virtual serial port running using Socket.io
+A virtual [node-serialport](https://github.com/voodootikigod/node-serialport) implementation that uses socket.io as the transport.
 
 # Installation
 
