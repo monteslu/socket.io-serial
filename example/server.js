@@ -4,10 +4,6 @@ var Server = require('socket.io');
 var io = new Server(3000);
 
 io.on('connection', function(socket){
-  socket.on('chat message', function(msg){
-    console.log('chat', msg);
-    io.emit('chat message', msg);
-  });
 
   socket.on('serial', function(msg){
     if(typeof msg.device === 'string'){
