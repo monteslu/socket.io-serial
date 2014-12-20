@@ -3,6 +3,7 @@
 var util = require('util');
 var stream = require('stream');
 var _ = require('lodash');
+var debug = require('debug')('serial');
 
 
 
@@ -18,13 +19,13 @@ function SocketSerialPort(options) {
 
   this.client.on(this.receiveTopic, function(data){
     try{
-      console.log('received', data);
+      debug('received', data);
       if(data.buffer){
         self.emit('data', data.buffer);
       }
 
     }catch(exp){
-      console.log('error on message', exp);
+      debug('error on message', exp);
       //self.emit('error', 'error receiving message: ' + exp);
     }
   });
@@ -46,7 +47,7 @@ SocketSerialPort.prototype.open = function (callback) {
 
 SocketSerialPort.prototype.write = function (data, callback) {
 
-  console.log('sending data:', data);
+  debug('sending data:', data);
 
   var sendObj = _.clone(this.metaData);
   sendObj.buffer = data;
@@ -57,21 +58,21 @@ SocketSerialPort.prototype.write = function (data, callback) {
 
 
 SocketSerialPort.prototype.close = function (callback) {
-  console.log('closing');
+  debug('closing');
   if(callback){
     callback();
   }
 };
 
 SocketSerialPort.prototype.flush = function (callback) {
-  console.log('flush');
+  debug('flush');
   if(callback){
     callback();
   }
 };
 
 SocketSerialPort.prototype.drain = function (callback) {
-  console.log('drain');
+  debug('drain');
   if(callback){
     callback();
   }
@@ -92,13 +93,13 @@ function bindPhysical(options){
       }
       serialPort.write(data);
     }catch(exp){
-      console.log('error reading message', exp);
+      debug('error reading message', exp);
     }
   }
 
 
   serialPort.on('data', function(data){
-    console.log('sending data:', data);
+    debug('sending data:', data);
     if (!Buffer.isBuffer(data)) {
       data = new Buffer(data);
     }
@@ -113,10 +114,10 @@ function bindPhysical(options){
   client.on(receiveTopic, function(data){
     try{
       if(data.buffer){
-        console.log('received', data);
+        debug('received', data);
         serialWrite(data.buffer);      }
     }catch(exp){
-      console.log('error on receive', exp);
+      debug('error on receive', exp);
       //self.emit('error', 'error receiving message: ' + exp);
     }
   });

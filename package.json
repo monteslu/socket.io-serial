@@ -1,6 +1,6 @@
 {
   "name": "socket.io-serial",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Virtual serial device over Socket.io",
   "main": "index.js",
   "repository": "git@github.com:monteslu/socket.io-serial.git",
@@ -10,6 +10,7 @@
   "author": "Luis Montes",
   "license": "MIT",
   "dependencies": {
+    "debug": "^2.1.0",
     "lodash": "^2.4.1"
   }
 }
